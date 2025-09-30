@@ -8,6 +8,10 @@ import "swiper/css";
 import "swiper/css/navigation";
 import "swiper/css/pagination";
 
+import "./NewItems.css"
+
+
+
 const NewItems = () => {
   const [card, setCard] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -38,11 +42,11 @@ const NewItems = () => {
         </div>
         <div className="de_countdown skeleton-box"></div>
         <div className="nft__item_wrap">
-          <div className="skeleton-box nft__item_preview" style={{ height: "200px" }}></div>
+          <div className="skeleton-box nft__item_preview"></div>
         </div>
         <div className="nft__item_info">
-          <div className="skeleton-box" style={{ width: "70%", height: "20px", margin: "10px 0" }}></div>
-          <div className="skeleton-box" style={{ width: "50%", height: "20px", marginBottom: "5px" }}></div>
+          <div className="skeleton-box" ></div>
+          <div className="skeleton-box"></div>
         </div>
       </div>
     </div>
@@ -80,6 +84,12 @@ const NewItems = () => {
   return (
     <section id="section-items" className="no-bottom">
       <div className="container">
+        <div className="row">
+          <div className="col-lg-12">
+            <div className="text-center">
+              <h2>New Items</h2>
+              <div className="small-border bg-color-2"></div>
+            </div>
         {loading ? (
           <Swiper
             modules={[Navigation, Pagination]}
@@ -148,6 +158,8 @@ const NewItems = () => {
             ))}
           </Swiper>
         )}
+        </div>
+        </div>
       </div>
     </section>
   );
