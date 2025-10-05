@@ -25,7 +25,7 @@ const NewItems = () => {
     } catch (error) {
       console.error(error);
     } finally {
-      setTimeout(() => setLoading(false), 3000);
+      setTimeout(() => setLoading(false), 300);
     }
   }
 
@@ -128,7 +128,7 @@ const NewItems = () => {
               <SwiperSlide key={index}>
                 <div className="nft__item">
                   <div className="author_list_pp">
-                    <Link to="/author" title={`Creator: ${item.authorName}`}>
+                    <Link to={`/author/${item.authorId}`}  title={`Creator: ${item.authorName}`}>
                       <img className="lazy" src={item.authorImage} alt="" />
                       <i className="fa fa-check"></i>
                     </Link>
@@ -139,12 +139,12 @@ const NewItems = () => {
                       : "0h 0m 0s"}
                   </div>
                   <div className="nft__item_wrap">
-                    <Link to="/item-details">
+                    <Link to={`/item-details/${item.nftId}`}>
                       <img src={item.nftImage} className="lazy nft__item_preview" alt="" />
                     </Link>
                   </div>
                   <div className="nft__item_info">
-                    <Link to="/item-details">
+                    <Link to={`/item-details/${item.nftId}`}>
                       <h4>{item.title}</h4>
                     </Link>
                     <div className="nft__item_price">{item.price} ETH</div>
