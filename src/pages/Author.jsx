@@ -10,19 +10,21 @@ const Author = () => {
   const [loading, setLoading] = useState(true);
   const [isFollowing, setIsFollowing] = useState(false)
 
-  useEffect(() => {
-    async function fetchAuthor() {
+ useEffect(() => {
+    // define async function inside useEffect
+    const fetchAuthor = async () => {
       try {
         const { data } = await axios.get(
-          `https://us-central1-nft-cloud-functions.cloudfunctions.net/authors?author=${authorId || 73855012}`
+          `https://us-central1-nft-cloud-functions.cloudfunctions.net/authors?author=${authorId}`
         );
+        console.log(data);
         setAuthor(data);
       } catch (error) {
         console.error("Error fetching author:", error);
       } finally {
         setLoading(false);
       }
-    }
+    };
 
     fetchAuthor();
   }, [authorId]);
@@ -110,7 +112,7 @@ const Author = () => {
               {/* Author items */}
               <div className="col-md-12">
                 <div className="de_tab tab_simple">
-                  <AuthorItems authorId={authorId || 73855012} />
+                  <AuthorItems items={author.nftCollection} author={author} />
                 </div>
               </div>
             </div>

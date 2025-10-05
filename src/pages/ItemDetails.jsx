@@ -1,8 +1,6 @@
 import React, { useEffect, useState } from "react";
 import EthImage from "../images/ethereum.svg";
 import { Link, useParams } from "react-router-dom";
-import AuthorImage from "../images/author_thumbnail.jpg";
-import nftImage from "../images/nftImage.jpg";
 import axios from "axios";
 
 function ItemDetails()  {
@@ -12,10 +10,9 @@ function ItemDetails()  {
 
 
     async function fetchItem()  {
-        const {data} = await axios.get(`https://us-central1-nft-cloud-functions.cloudfunctions.net/itemDetails?nftId=${nftId}`);
+        const {data} = await axios.get(`https://us-central1-nft-cloud-functions.cloudfunctions.net/itemDetails?nftId=${nftId}`)
         console.log(data)
-        setItem(data);
-      
+        setItem(data);  
     };
 
 
@@ -25,16 +22,7 @@ function ItemDetails()  {
     fetchItem()
   }, [nftId]);
 
-  async function FetchItemDetail(nftId) {
-    
-    const {data} = await axios.get(`https://us-central1-nft-cloud-functions.cloudfunctions.net/itemDetails?nftId=${nftId || 17914494}`)
-      setItem(data)
-    
-  }
-
-  useEffect(() => {
-    FetchItemDetail()
-  },[nftId])
+ 
 
 
   return (
@@ -78,13 +66,13 @@ function ItemDetails()  {
                       <h6>Owner</h6>
                       <div className="item_author">
                         <div className="author_list_pp">
-                          <Link to={`/author/${item.nftId}`}>
+                          <Link to={`/author/${item.authorId}`}>
                             <img className="lazy" src={item.ownerImage} alt="" />
                             <i className="fa fa-check"></i>
                           </Link>
                         </div>
                         <div className="author_list_info">
-                          <Link to={`/author/${item.nftId}`}>{item.ownerName}</Link>
+                          <Link to={`/author/${item.authorId}`}>{item.ownerName}</Link>
                         </div>
                       </div>
                     </div>
@@ -97,7 +85,7 @@ function ItemDetails()  {
                       <h6>Creator</h6>
                       <div className="item_author">
                         <div className="author_list_pp">
-                          <Link to={`/author/${item.nftId}`}>
+                          <Link to={`/author/${item.authorId}`}>
                             <img className="lazy" src={item.creatorImage} alt="" />
                             <i className="fa fa-check"></i>
                           </Link>
