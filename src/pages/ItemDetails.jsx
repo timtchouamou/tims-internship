@@ -4,7 +4,6 @@ import { Link, useParams } from "react-router-dom";
 import AuthorImage from "../images/author_thumbnail.jpg";
 import nftImage from "../images/nftImage.jpg";
 import axios from "axios";
-<<<<<<< HEAD
 
 function ItemDetails()  {
 
@@ -22,17 +21,6 @@ function ItemDetails()  {
 
 
   useEffect(() => {
-=======
-
-const ItemDetails = () => {
- 
-
-    //because we're using dynamic route like /item/:nftId
-   const { nftId } = useParams(); 
-  const [itemDetail, setItemDeatil] = useState({})
-
-   useEffect(() => {
->>>>>>> 9c62e3affc122badf7c01725bf810fd569d4983c
     window.scrollTo(0, 0);
     fetchItem()
   }, [nftId]);
@@ -40,7 +28,7 @@ const ItemDetails = () => {
   async function FetchItemDetail(nftId) {
     
     const {data} = await axios.get(`https://us-central1-nft-cloud-functions.cloudfunctions.net/itemDetails?nftId=${nftId || 17914494}`)
-      setItemDeatil(data)
+      setItem(data)
     
   }
 
@@ -56,39 +44,24 @@ const ItemDetails = () => {
         <section aria-label="section" className="mt90 sm-mt-0">
           <div className="container">
             <div className="row">
-<<<<<<< HEAD
 
                 {/* Left image */}
               <div className="col-md-6 text-center">
                 <img
                   src={item.nftImage}
-=======
-                    {/* NFT Image */}
-              <div className="col-md-6 text-center">
-                <img
-                  src={itemDetail.nftImage}
->>>>>>> 9c62e3affc122badf7c01725bf810fd569d4983c
                   className="img-fluid img-rounded mb-sm-30 nft-image"
-                  alt={itemDetail.title}
+                  alt={item.title}
                 />
               </div>
 
-<<<<<<< HEAD
                {/* Right details */}
               <div className="col-md-6">
                 <div className="item_info">
                   <h2>{item.title} #{item.tag}</h2>
-=======
-                 {/* NFT Details */}
-              <div className="col-md-6">
-                <div className="item_info">
-                  <h2>{itemDetail.title} #{itemDetail.tag}</h2>
->>>>>>> 9c62e3affc122badf7c01725bf810fd569d4983c
 
                   <div className="item_info_counts">
                     <div className="item_info_views">
                       <i className="fa fa-eye"></i>
-<<<<<<< HEAD
                       {item.views}
                     </div>
                     <div className="item_info_like">
@@ -98,17 +71,6 @@ const ItemDetails = () => {
                   </div>
                   <p>
                     {item.description}
-=======
-                     {itemDetail.views}
-                    </div>
-                    <div className="item_info_like">
-                      <i className="fa fa-heart"></i>
-                       {itemDetail.likes}
-                    </div>
-                  </div>
-                  <p>
-                  {itemDetail.description}
->>>>>>> 9c62e3affc122badf7c01725bf810fd569d4983c
                   </p>
                    {/* Owner */}
                   <div className="d-flex flex-row">
@@ -116,22 +78,13 @@ const ItemDetails = () => {
                       <h6>Owner</h6>
                       <div className="item_author">
                         <div className="author_list_pp">
-<<<<<<< HEAD
                           <Link to={`/author/${item.nftId}`}>
                             <img className="lazy" src={item.ownerImage} alt="" />
-=======
-                          <Link to={`/author/${itemDetail.ownerId}`}>
-                            <img className="lazy" src={itemDetail.ownerImage} alt={itemDetail.ownerName}/>
->>>>>>> 9c62e3affc122badf7c01725bf810fd569d4983c
                             <i className="fa fa-check"></i>
                           </Link>
                         </div>
                         <div className="author_list_info">
-<<<<<<< HEAD
                           <Link to={`/author/${item.nftId}`}>{item.ownerName}</Link>
-=======
-                           <Link to={`/author/${itemDetail.ownerId}`}> {itemDetail.ownerName}</Link>
->>>>>>> 9c62e3affc122badf7c01725bf810fd569d4983c
                         </div>
                       </div>
                     </div>
@@ -144,24 +97,15 @@ const ItemDetails = () => {
                       <h6>Creator</h6>
                       <div className="item_author">
                         <div className="author_list_pp">
-<<<<<<< HEAD
                           <Link to={`/author/${item.nftId}`}>
                             <img className="lazy" src={item.creatorImage} alt="" />
-=======
-                          <Link to={`/author/${itemDetail.creatorId}`}>
-                            <img className="lazy" src={itemDetail.creatorImage} alt={itemDetail.creatorName} />
->>>>>>> 9c62e3affc122badf7c01725bf810fd569d4983c
                             <i className="fa fa-check"></i>
                           </Link>
                         </div>
                         <div className="author_list_info">
-<<<<<<< HEAD
                           {/* ✅ Also link title properly */}
                           <Link to={`/item-details/${item.nftId}`}>
                            <h4>{item.title}</h4></Link>
-=======
-                          <Link to={`/author/${itemDetail.creatorId}`}>{itemDetail.creatorName}</Link>
->>>>>>> 9c62e3affc122badf7c01725bf810fd569d4983c
                         </div>
                       </div>
                     </div>
@@ -170,13 +114,8 @@ const ItemDetails = () => {
                      {/* Price */}
                     <h6>Price</h6>
                     <div className="nft-item-price">
-<<<<<<< HEAD
                       <img src={EthImage} alt="" />
                       <span>{item.price}</span>
-=======
-                      <img src={EthImage} alt="ETH" />
-                      <span>{itemDetail.price}</span>
->>>>>>> 9c62e3affc122badf7c01725bf810fd569d4983c
                     </div>
                   </div>
 
