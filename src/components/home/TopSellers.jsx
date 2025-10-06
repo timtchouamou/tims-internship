@@ -2,22 +2,17 @@ import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import axios from "axios";
 
-import "./TopSellers.css"
+import SkeletonAll from "../UI/SkeletonAll"; // ✅ Import adaptive skeleton
 
 const TopSellers = () => {
   const [author, setAuthor] = useState([]);
   const [loading, setLoading] = useState(true); // skeleton state
 
   async function FecthTopSellers() {
-    const { data } = await axios.get(
-      `https://us-central1-nft-cloud-functions.cloudfunctions.net/topSellers`
-    );
+    const { data } = await axios.get(`https://us-central1-nft-cloud-functions.cloudfunctions.net/topSellers`);
     console.log(data);
     setAuthor(data);
-
-    setTimeout(() => {
-      setLoading(false) 
-    }, 400);
+    setTimeout(() => setLoading(false),4000);
 
   }
 
@@ -25,8 +20,6 @@ const TopSellers = () => {
     FecthTopSellers();
   }, []);
 
-  // skeleton placeholder (show while loading)
-  const skeletons = Array(12).fill(0);
 
   return (
     <section id="section-popular" className="pb-5">
@@ -41,37 +34,12 @@ const TopSellers = () => {
           <div className="col-md-12">
             <ol className="author_list">
 
-              {loading 
-               ? skeletons.map((_, index) => (
-                    <li key={index}>
-                      <div className="author_list_pp">
-                        <div
-                          className="skeleton skeleton-img"
-                          style={{
-                            width: "50px",
-                            height: "50px",
-                            borderRadius: "50%",
-                          }}
-                        ></div>
-                      </div>
-                      <div className="author_list_info">
-                        <div
-                          className="skeleton skeleton-text"
-                          style={{ width: "100px", height: "15px" }}
-                        ></div>
-                        <div
-                          className="skeleton skeleton-text"
-                          style={{
-                            width: "60px",
-                            height: "12px",
-                            marginTop: "5px",
-                          }}
-                        ></div>
-                      </div>
-                    </li>
+              {loading ?
+
+                Array(12).fill(0).map((_, index) => (
+                   <SkeletonAll type="author" />
                   )) 
              
-              
               :
               
                author.map((item, index) => (
@@ -104,3 +72,4 @@ const TopSellers = () => {
 };
 
 export default TopSellers;
+
