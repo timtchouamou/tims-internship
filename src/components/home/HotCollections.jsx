@@ -1,17 +1,15 @@
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-
 import axios from "axios";
-
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Navigation, Pagination } from "swiper/modules";
 import "swiper/css";
 import "swiper/css/navigation";
 import "swiper/css/pagination";
-
 import SkeletonAll from "../UI/SkeletonAll"; // ✅ Import adaptive skeleton
 
 const HotCollections = () => {
+  
   const [card, setCart] = useState([]);
   const [loading, setLoading] = useState(true);
 
@@ -52,7 +50,7 @@ const HotCollections = () => {
         }}
       >
         {loading ? 
-            [...Array(4)].map((_, i) => (
+            [...Array(6)].map((_, i) => (
                 <SwiperSlide key={i}>
                <SkeletonAll type="collection" />
           </SwiperSlide>
@@ -60,7 +58,7 @@ const HotCollections = () => {
             
          : 
          
-            card.slice(0, 8).map((item, index) => (
+            card.slice(0, 6).map((item, index) => (
               
                   <SwiperSlide key={index}>
 

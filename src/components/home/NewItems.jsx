@@ -1,20 +1,16 @@
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import axios from "axios";
-
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Navigation, Pagination } from "swiper/modules";
 import "swiper/css";
 import "swiper/css/navigation";
 import "swiper/css/pagination";
-
 import SkeletonAll from "../UI/SkeletonAll"; // ✅ Import adaptive skeleton
 
 
-
-
-
 const NewItems = () => {
+
   const [card, setCard] = useState([]);
   const [loading, setLoading] = useState(true);
 
@@ -46,6 +42,7 @@ const NewItems = () => {
         if (item.expiryDate) {
           return Math.floor((new Date(item.expiryDate) - new Date()) / 1000);
         }
+        
         return 5 * 3600 + 30 * 60 + 32; // fallback
       });
 
