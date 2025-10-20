@@ -1,34 +1,30 @@
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-
 import axios from "axios";
-
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Navigation, Pagination } from "swiper/modules";
 import "swiper/css";
 import "swiper/css/navigation";
 import "swiper/css/pagination";
+import SkeletonAll from "../UI/SkeletonAll"; // ✅ Import adaptive skeleton
 
 const HotCollections = () => {
+  
   const [card, setCart] = useState([]);
   const [loading, setLoading] = useState(true);
 
   async function FectHotCollections() {
-    const { data } = await axios.get(
-      `https://us-central1-nft-cloud-functions.cloudfunctions.net/hotCollections`
-    );
+    const { data } = await axios.get(`https://us-central1-nft-cloud-functions.cloudfunctions.net/hotCollections`);
     console.log(data);
     setCart(data);
-
-    setTimeout(() => {
-      setLoading(false);
-    }, 3000);
+    setTimeout(() => setLoading(false),4000);
   }
 
   useEffect(() => {
     FectHotCollections();
   }, []);
 
+  
   return (
 
     <section id="section-collections" className="no-bottom">
@@ -40,66 +36,36 @@ const HotCollections = () => {
           </div>
         </div>
 
-        {loading ? (
-          <div className="row">
-            <Swiper
-            modules={[Navigation, Pagination]}
-            spaceBetween={20}
-            slidesPerView={4}
-             loop={true}                     // 👈 makes it 360° continuous
-            navigation
-            pagination={{ clickable: true }}
-            breakpoints={{
-              1024: { slidesPerView: 4 },
-              768: { slidesPerView: 2 },
-              0: { slidesPerView: 1 },
-            }}
-          >
-            {[...Array(4)].map((_, i) => (
-               <SwiperSlide key={i}>
-                <div className="nft_coll"
-                style={{ backgroundColor: "#d3d3deff" }}>
-                  <div className="nft_wrap">
+        <Swiper
+        modules={[Navigation, Pagination]}
+        spaceBetween={20}
+        slidesPerView={4}
+         loop={true}                     // 👈 makes it 360° continuous
+        navigation
+        pagination={{ clickable: true }}
+        breakpoints={{
+          1024: { slidesPerView: 4 },
+          768: { slidesPerView: 2 },
+          0: { slidesPerView: 1 },
+        }}
+      >
+        {loading ? 
+            [...Array(6)].map((_, i) => (
+                <SwiperSlide key={i}>
+               <SkeletonAll type="collection" />
+          </SwiperSlide>
+            ))
+            
+         : 
+         
+            card.slice(0, 6).map((item, index) => (
+              
+                  <SwiperSlide key={index}>
 
-                    <div className="skeleton"/>
-                  </div>
-                  <div className="nft_coll_pp">
-                    <div
-                      className="skeleton"
-                      style={{ borderRadius: "50%", width: 50, height: 50 }}
-                      
-                    />
-                  </div>
-                  <div className="nft_coll_info">
-                    <div className="skeleton-text" style={{ width: "80%" }} />
-                    <div className="skeleton-text" style={{ width: "50%" }} />
-                  </div>
-                </div>
-              </SwiperSlide>
-            ))}
-            </Swiper>
-          </div>
-
-        ) : (
-
-          <Swiper
-            modules={[Navigation, Pagination]}
-            spaceBetween={20}
-            slidesPerView={4}
-             loop={true}                     // 👈 makes it 360° continuous
-            navigation
-            pagination={{ clickable: true }}
-            breakpoints={{
-              1024: { slidesPerView: 4 },
-              768: { slidesPerView: 2 },
-              0: { slidesPerView: 1 },
-            }}
-          >
-            {card.slice(0, 8).map((item, index) => (
-              <SwiperSlide key={index}>
                 <div className="nft_coll">
+
                   <div className="nft_wrap">
-                    <Link to="/item-details">
+                    <Link to={`/item-details/${item.nftId}`}>
                       <img
                         src={item.nftImage}
                         className="lazy img-fluid"
@@ -109,7 +75,7 @@ const HotCollections = () => {
                   </div>
 
                   <div className="nft_coll_pp">
-                    <Link to="/author">
+                    <Link to={`/author/${item.authorId}`}>
                       <img
                         className="lazy pp-coll"
                         src={item.authorImage}
@@ -125,11 +91,12 @@ const HotCollections = () => {
                     </Link>
                     <span>ERC-{item.code}</span>
                   </div>
+
                 </div>
               </SwiperSlide>
+                
             ))}
           </Swiper>
-        )}
       </div>
     </section>
   );

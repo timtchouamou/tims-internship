@@ -1,31 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 
-const SkeletonCard = () => {
-  return (
-    <div
-      className="d-item col-lg-3 col-md-6 col-sm-6 col-xs-12"
-      style={{ display: "block" }}
-    >
-      <div className="nft__item animate-pulse">
-        <div className="author_list_pp">
-          <div className="w-10 h-10 rounded-full bg-gray-300"></div>
-        </div>
-        <div className="de_countdown w-20 h-4 bg-gray-300 rounded my-2"></div>
+import SkeletonAll from "../UI/SkeletonAll"; // ✅ Import adaptive skeleton
 
-        <div className="nft__item_wrap">
-          <div className="w-full h-40 bg-gray-300 rounded"></div>
-        </div>
-
-        <div className="nft__item_info mt-2">
-          <div className="w-24 h-5 bg-gray-300 rounded mb-2"></div>
-          <div className="w-16 h-4 bg-gray-300 rounded mb-1"></div>
-          <div className="w-10 h-4 bg-gray-300 rounded"></div>
-        </div>
-      </div>
-    </div>
-  );
-};
 
 
 const ExploreItems = ({explore}) => {
@@ -59,9 +36,7 @@ const ExploreItems = ({explore}) => {
     setTimeLeft(countdowns);
     setCard(explore);
 
-    setTimeout(() => {   
-      setLoading(false)
-    }, 3000);
+    setTimeout(() => setLoading(false), 4000);
   }
 
 }, [explore]);
@@ -127,8 +102,12 @@ const ExploreItems = ({explore}) => {
       </div>
 
       {/* Show skeleton while loading */}
-        {loading
-        ? Array(4).fill(0).map((_, index) => <SkeletonCard key={index} />)
+        {loading ?
+         Array(4).fill(0).map((_, index) => 
+         <div key={index}className="d-item col-lg-3 col-md-6 col-sm-6 col-xs-12"
+          style={{ display: "block", backgroundSize: "cover" }}>
+        <SkeletonAll type="item" /> {/* 👈 matches NFT item layout */}
+      </div>)
         : card.slice(0,visibleCount).map((item, index) => (
         <div
           key={index}
@@ -170,12 +149,12 @@ const ExploreItems = ({explore}) => {
                   </div>
                 </div>
               </div>
-              <Link to="/item-details">
+              <Link to={`/item-details/${item.nftId}`}>
                 <img src={item.nftImage} className="lazy nft__item_preview" alt="" />
               </Link>
             </div>
             <div className="nft__item_info">
-              <Link to="/item-details">
+              <Link to={`/item-details/${item.nftId}`}>
                 <h4>{item.title}</h4>
               </Link>
               <div className="nft__item_price">{item.price} ETH</div>

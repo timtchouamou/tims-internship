@@ -1,56 +1,30 @@
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import axios from "axios";
-
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Navigation, Pagination } from "swiper/modules";
 import "swiper/css";
 import "swiper/css/navigation";
 import "swiper/css/pagination";
-
-import "./NewItems.css"
-
+import SkeletonAll from "../UI/SkeletonAll"; // ✅ Import adaptive skeleton
 
 
 const NewItems = () => {
+
   const [card, setCard] = useState([]);
   const [loading, setLoading] = useState(true);
 
   async function fetchNewItems() {
-    try {
-      const { data } = await axios.get(
-        "https://us-central1-nft-cloud-functions.cloudfunctions.net/newItems"
-      );
+    
+      const { data } = await axios.get("https://us-central1-nft-cloud-functions.cloudfunctions.net/newItems");
+      console.log(data)
       setCard(data);
-    } catch (error) {
-      console.error(error);
-    } finally {
-      setTimeout(() => setLoading(false), 3000);
-    }
+      setTimeout(() => setLoading(false),4000); 
   }
 
   useEffect(() => {
     fetchNewItems();
   }, []);
-
-  // Skeleton loader
-  const SkeletonCard = () => (
-    <div className="col-lg-3 col-md-6 col-sm-6 col-xs-12">
-      <div className="nft__item skeleton">
-        <div className="author_list_pp">
-          <div className="skeleton-circle"></div>
-        </div>
-        <div className="de_countdown skeleton-box"></div>
-        <div className="nft__item_wrap">
-          <div className="skeleton-box nft__item_preview"></div>
-        </div>
-        <div className="nft__item_info">
-          <div className="skeleton-box" ></div>
-          <div className="skeleton-box"></div>
-        </div>
-      </div>
-    </div>
-  );
 
   // Countdown formatter
   const formatTime = (seconds) => {
@@ -68,6 +42,7 @@ const NewItems = () => {
         if (item.expiryDate) {
           return Math.floor((new Date(item.expiryDate) - new Date()) / 1000);
         }
+        
         return 5 * 3600 + 30 * 60 + 32; // fallback
       });
 
@@ -90,7 +65,7 @@ const NewItems = () => {
               <h2>New Items</h2>
               <div className="small-border bg-color-2"></div>
             </div>
-        {loading ? (
+
           <Swiper
             modules={[Navigation, Pagination]}
             spaceBetween={20}
@@ -104,31 +79,22 @@ const NewItems = () => {
               0: { slidesPerView: 1 },
             }}
           >
-            {Array.from({ length: 8 }).map((_, index) => (
-              <SwiperSlide key={index}>
-                <SkeletonCard />
+
+        {loading ? 
+          
+            Array.from({ length: 8 }).map((_, index) => (
+               <SwiperSlide key={index}>
+             <SkeletonAll type="item" />
               </SwiperSlide>
-            ))}
-          </Swiper>
-        ) : (
-          <Swiper
-            modules={[Navigation, Pagination]}
-            spaceBetween={20}
-            slidesPerView={4}
-            loop={true}
-            navigation
-            pagination={{ clickable: true }}
-            breakpoints={{
-              1024: { slidesPerView: 4 },
-              768: { slidesPerView: 2 },
-              0: { slidesPerView: 1 },
-            }}
-          >
-            {card.map((item, index) => (
+            ))
+         
+         : 
+          
+            card.map((item, index) => (
               <SwiperSlide key={index}>
                 <div className="nft__item">
                   <div className="author_list_pp">
-                    <Link to="/author" title={`Creator: ${item.authorName}`}>
+                    <Link to={`/author/${item.authorId}`}  title={`Creator: ${item.authorName}`}>
                       <img className="lazy" src={item.authorImage} alt="" />
                       <i className="fa fa-check"></i>
                     </Link>
@@ -139,12 +105,12 @@ const NewItems = () => {
                       : "0h 0m 0s"}
                   </div>
                   <div className="nft__item_wrap">
-                    <Link to="/item-details">
+                    <Link to={`/item-details/${item.nftId}`}>
                       <img src={item.nftImage} className="lazy nft__item_preview" alt="" />
                     </Link>
                   </div>
                   <div className="nft__item_info">
-                    <Link to="/item-details">
+                    <Link to={`/item-details/${item.nftId}`}>
                       <h4>{item.title}</h4>
                     </Link>
                     <div className="nft__item_price">{item.price} ETH</div>
@@ -155,9 +121,11 @@ const NewItems = () => {
                   </div>
                 </div>
               </SwiperSlide>
-            ))}
+            ))
+
+          }
+          
           </Swiper>
-        )}
         </div>
         </div>
       </div>
